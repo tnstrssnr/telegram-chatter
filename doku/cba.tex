@@ -1,0 +1,147 @@
+\documentclass[a4paper]{article}
+
+%packages
+\usepackage[ngerman]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{python}
+\usepackage{color}
+\usepackage[left=2.5cm,right=2.5cm,top=1.5cm,bottom=1cm,includeheadfoot]{geometry}
+
+%header+footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RE, LO]{Telegram Chatbot}
+\fancyhead[LE, RO]{CoderDojo Karlsruhe}
+\renewcommand{\headrulewidth}{2pt}
+
+\title{Telegram Chatbot - Anleitung}
+
+\begin{document}
+
+	\begin{center}
+		\huge Telegram Chatbot \\
+		\includegraphics[scale=0.1]{telegram.png}
+		\includegraphics[scale=0.1]{bot.png}
+	\end{center}
+
+Ein Chatbot ist ein Programm, dass sich in einem Chatroom von selbst mit einem User unterh"alt. Wie der Bot auf den User reagiert und was er sagt, h"angt davon ab, wie das Programm geschrieben ist.
+	
+Wir wollen einen Chatbot f"ur die Messenger-App Telegram programmieren.
+	
+	\section{Wie funktioniert ein Bot?}
+Ein Bot liest nacheinander die Nachrichten, die an ihn gesendet werden, und versucht den Inhalt ihrer Nachricht zu erkennen, indem er die Nachricht mit S"atzen und W"ortern abgleicht, die er bereits kennt. Dass dabei sinnvolle Antworten rauskommen, ist Aufgabe des Programmierers. \\
+Beispiel: Der Bot erkennt, dass das Wort \grqq Hallo\grqq\ in der Nachricht vorkommt und antwortet mit \grqq Hallo, *Name des Benutzers*\grqq
+		
+		\section{Wie kann ich selbst einen Bot programmieren?}
+		
+		\subsection{Vorbereitung}
+Die Grundfunktionen eines Chatbots stehen Dir schon zur Verf"ugung. Um die Funktionen nutzen zu k"onnen, musst du die Klasse TelegramBot aus dem Modul chatter importieren.
+
+		\begin{verbatim}
+			from chatter.telegramBot import TelegramBot
+		\end{verbatim}
+
+		Danach kannst du ein TelegramBot-Objekt erzeugen. Das geht so:
+
+		\begin{verbatim}
+			deinBot = TelegramBot(oauth)
+		\end{verbatim}
+		
+		\subsection{Nachrichten, Chats und User}
+		Dein Bot wei"s bereits, was Nachrichten, Chats und User sind. Objekte dieser Klassen haben folgende Attribute:
+		
+		\subsubsection{Nachrichten}
+		\begin{itemize}
+			\item id 			--	Nummer, mit der eine bestimmte Nachricht identifiziert werden kann
+			\item sender	-- 	User, der die Nachricht gesendet hat
+			\item datum		--	Zeitpunkt zu dem die Nachricht gesendet wurde (in UNIX-Zeit)
+			\item chat		--	Chat, in dem die Antwort gesendet wurde
+			\item antwort	--	Originalnachricht, falls die Nachricht eine Antwort war
+			\item inhalt		--	Der Inhalt der Nachricht   
+		\end{itemize}
+		
+		\subsubsection{Chats}
+		\begin{itemize}
+			\item id	--	Nummer, mit der ein bestimmter Chat identifiziert werden kann
+			\item typ -- Typ des Chats: \grqq private\grqq , \grqq group\grqq , \grqq supergroup\grqq , oder \grqq channel\grqq
+			\item titel -- Titel des Gruppenchats (optional)
+		\end{itemize}
+		
+		\subsubsection{User}
+		\begin{itemize}
+			\item id -- Nummer, mit der ein bestimmer Chat identifiziert werden kann
+			\item vorname -- Vorname des Users
+			\item nachname -- Nachname des Users (optional)
+			\item username -- Username des Users (optional)
+		\end{itemize}
+		
+		\subsection{Die TelegramBot-Klasse}
+		\subsubsection{Attribute}
+Dein Bot hat folgende Attribute:
+		\begin{itemize}
+			\item id -- Nummer, mit der der Bot identifiziert werden kann
+			\item name -- Name des Bots
+			\item username -- Username des Bots
+			\item oauth -- Authorisierungskennung zur Kommunikation mit dem Server
+			\item online -- zeigt an ob der Bot on- oder offline ist (Boolean-Wert)
+		\end{itemize}
+		Konstruktor:
+
+
+		\subsubsection{Funktionen}
+Folgende Funktionen kennt dein Bot bereits:\\
+			\begin{verbatim}
+				hole_updates()
+			\end{verbatim}
+R"uckgabewert: Eine Liste aller Nachrichten, die der Bot seit der letzten Abfrage erhalten hat \\
+			\begin{verbatim}
+				gehe_online()
+			\end{verbatim}
+Setzt online-attribut auf "True" \\
+			\begin{verbatim}
+				gehe_offline()
+			\end{verbatim}
+Setzt online-attribut auf "False" \\
+			\begin{verbatim}
+				sende_nachricht(text, chat_id, antwort_id)
+			\end{verbatim}
+Sendet eine Nachricht an den Chat. \\
+Parameter:
+\begin{itemize}
+	\item text -- Die zu sendende Nachricht
+	\item chat\_id -- Die ID des Chats an den die Nachricht gesendet werden soll
+	\item antwort\_id -- Nachricht-ID der Nachricht, auf die der Bot antwortet (optional)
+\end{itemize}
+R"uckgabewert: Die verschickte Nachricht \\
+
+	\begin{verbatim}
+		sende_bild(bild, chat_id)
+	\end{verbatim}
+Sendet ein Bild an den Chat. \\
+Parameter:
+\begin{itemize}
+	\item bild -- Pfad des Bildes, das verschickt werden soll
+	\item chat\_id -- Die ID des Chats an den das Bild gesendet werden soll
+\end{itemize}
+\newpage
+\section{Arbeitsauftrag}
+\begin{itemize}
+	\item Erstelle eine neue Python-Datei, importiere die Klasse TelegramBot und erzeuge eine Klasse f"ur deinen Chatbot (s. Vorbereitung)
+	\item definiere eine Methode, die folgendes macht:
+		\begin{itemize}
+			\item den Bot aktiviert
+			\item so lange er aktiviert ist, immer wieder checkt ob der Bot neue Nachrichten erhalten hat (while-Schleife!)
+			\item f"ur jede Nachricht checkt, ob der Bot eine passende Antwort hat und diese dann sendet (implementiere am besten eine eigene Methode hierf"ur und rufe sie dann auf)
+			\begin{itemize}
+				\item auf die Nachricht \glqq hallo\grqq\  soll der Bot mit \glqq hallo, *Name*\grqq\ antworten
+				\item auf \glqq  wie hei"st du?\grqq\ soll der Bot mit seinem Namen antworten
+				\item auf \glqq tsch"uss\grqq\ soll der Bot mit \glqq bis bald, *Name*\grqq\  antworten
+			\end{itemize}
+			\item au"serhalb der Klasse, erzeuge ein Objekt deiner Bot-Klasse und starte den Bot
+			\item erweitere die Funktionalit"at deines Bots mit deinen eigenen Ideen
+		\end{itemize}
+\end{itemize}
+\end{document}
