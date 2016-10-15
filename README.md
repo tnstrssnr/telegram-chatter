@@ -16,3 +16,7 @@ Repository herunterladen:
 Zur Verwendung muss die Klasse TelegramBot aus dem Package chatter importiert werden ( für den import muss der Interpreter zur Laufzeit auf das Packet zugreifen können, andernfalls kommt es zu einer Fehlermeldung).
 
 `from chatter.telegramBot import TelegramBot`
+
+
+###### Starten der Beispiel-Implementation:
+Die Dateien des Ornders müssen im gleichen Directory liegen, wie der das Paket chatter.
