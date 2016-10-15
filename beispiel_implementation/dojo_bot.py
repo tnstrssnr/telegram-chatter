@@ -10,8 +10,8 @@ import time
 from datetime import datetime
 
 from chatter.telegramBot import TelegramBot
-from beispiel_implemetation.texte import BEGRUESSUNG, VERABSCHIEDUNG, IDENTITAET, GEFUEHLS_ZUSTAND
-from beispiel_implemetation import config
+from beispiel_implementation.texte import BEGRUESSUNG, VERABSCHIEDUNG, IDENTITAET, GEFUEHLS_ZUSTAND
+from beispiel_implementation import config
 
 __author__ = 'Tina Maria Stroessner'
 __license__ = 'MIT'
