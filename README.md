@@ -19,4 +19,4 @@ Zur Verwendung muss die Klasse TelegramBot aus dem Package chatter importiert we
 
 
 ###### Starten der Beispiel-Implementation:
-Die Dateien des Ornders müssen im gleichen Directory liegen, wie der das Paket chatter.
+Die Dateien des Ordners müssen im gleichen Directory liegen, wie der das Paket chatter.
