@@ -2,7 +2,7 @@
 
 """
 Eine Unterklasse von TelegramBot, die die Funktionalität um eine einfache Spracherkennung erweitert.
-Objekte dieser Klasse köönen auf verschiedene Wörter/Sätze  reagieren und senden entsprechende Antworten an den Chat
+Objekte dieser Klasse können auf verschiedene Wörter/Sätze  reagieren und senden entsprechende Antworten an den Chat
 """
 
 import random
@@ -50,18 +50,8 @@ class DojoBot(TelegramBot):
         name = nachricht.sender.vorname
         chat = nachricht.chat.id
 
-        for wort in BEGRUESSUNG:
-            if wort in nachricht.inhalt:
-                antwort = random.choice(BEGRUESSUNG) + ", " + name
-                self.sende_nachricht(antwort, chat)
-                return
-
-        for wort in VERABSCHIEDUNG:
-            if wort in nachricht.inhalt:
-                antwort = random.choice(VERABSCHIEDUNG) + ", " + name
-                self.sende_nachricht(antwort, chat)
-                self.gehe_offline()
-                return
+        begruessung_benutzt = [wort for wort in nachricht.inhalt.split() if wort in BEGRUESSUNG]
+        verabschiedung_benutzt = [wort for wort in nachricht.inhalt.split() if wort in VERABSCHIEDUNG]
 
         if not len(DojoBot.antworten) == 0 and chat == DojoBot.antworten[0][1]:
 
@@ -70,6 +60,15 @@ class DojoBot(TelegramBot):
 
             self.sende_nachricht(DojoBot.antworten[0][0], DojoBot.antworten[0][1])
             del DojoBot.antworten[0]
+
+        elif len(begruessung_benutzt) > 0:
+            antwort = random.choice(BEGRUESSUNG) + ", " + name
+            self.sende_nachricht(antwort, chat)
+                
+        elif len(verabschiedung_benutzt) > 0:
+            antwort = random.choice(VERABSCHIEDUNG) + ", " + name
+            self.sende_nachricht(antwort, chat)
+            self.gehe_offline()
 
         elif nachricht.inhalt == "klopf klopf":
             self.sende_nachricht("Wer ist da?", chat)
