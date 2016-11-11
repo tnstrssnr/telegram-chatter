@@ -109,7 +109,7 @@ class TelegramBot(object):
     # Rückgabewert:
     #   das gesendete Nachrichten-Objekt
 
-    def sende_nachricht(self, text, chat_id, antwort_id=None):
+    def sende_nachricht(self, text, chat_id, antwort_id=None, markdown=False):
         t = urllib.parse.quote_plus(text)
         t = t.replace(".", "%2E")
         t = t.replace("-", "%2D")
@@ -120,6 +120,8 @@ class TelegramBot(object):
 
         try:
             send_url = SITE + self.oauth + SEND_MESSAGE + "chat_id=" + str(chat_id) + "&text=" + t
+            if markdown:
+                send_url = send_url + "&parse_mode=Markdown"
             with urllib.request.urlopen(send_url) as url:
                 sent_message = url.read()
             return json.loads(sent_message.decode('utf-8'))
