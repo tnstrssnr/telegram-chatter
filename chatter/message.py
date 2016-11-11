@@ -33,6 +33,6 @@ class Nachricht(object):
             self.antwort = None
 
         try:
-            self.inhalt = msg["text"].strip().lower()
+            self.inhalt = msg["text"].strip()
         except KeyError:
             self.inhalt = None
