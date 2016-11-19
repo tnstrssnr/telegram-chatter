@@ -19,6 +19,7 @@ import urllib.error
 import requests
 
 from chatter.message import Nachricht
+from chatter.user import User
 
 __author__ = 'Tina Maria Stroessner'
 __license__ = 'MIT'
@@ -30,6 +31,7 @@ GET_ME = "/GetMe"
 GET_UPDATES = "/GetUpdates"
 SEND_MESSAGE = "/sendmessage?"
 SEND_PHOTO = "/sendPhoto"
+GET_ADMINS = "/getChatAdministrators?"
 
 # wird beim Aufruf der hole_updates()-methode gesetzt, sorgt dafür, dass keine alten Nachrichten zurückgegeben werden
 offset = 0
@@ -139,3 +141,29 @@ class TelegramBot(object):
         data = {'chat_id': chat_id}
         files = {'photo': open(bild, 'rb')}
         r = requests.post(send_url, data=data, files=files)
+
+    # Funktion gib_Admins
+    # gibt eine Liste mit allen Admins desChats zurück. Bei Felher (z.B. Abfrage in einem privaten Chat) wird der Wert -1 zurückgegeben
+    #
+    # Parameter:
+    #   chat_id --  die ID des Chats, der abgefragt werden soll
+    #
+    # Rückgabewert:
+    #   Liste aller Administratoren des Chats (User-Objekte)
+    #   -1 falls ein Fehler aufetreten ist
+    def gib_Admins(self, chat_id):
+        try:
+            send_url = SITE + self.oauth + GET_ADMINS + "chat_id=" + chat_id
+            with urllib.request.urlopen(send_url) as url:
+                result = url.read()
+            data = json.loads(result.decode('utf-8'))
+
+        except:
+            print("Nachricht konnte nicht gesendet werden. Es ist ein HTTPError aufgetreten.")
+            return -1
+
+        admins = []
+        for admin in data["result"]:
+            admins.append(User(admin["user"]))
+
+        return admins
